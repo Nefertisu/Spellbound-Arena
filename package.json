@@ -1,0 +1,10 @@
+{
+  "scripts": {
+  "start:server": "npm run start:dev --prefix server",
+  "start:client": "npm run dev --prefix client",
+  "start:all": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run start:server\" \"npm run start:client\""
+  },
+  "devDependencies": {
+    "concurrently": "10.0.3"
+  }
+}
