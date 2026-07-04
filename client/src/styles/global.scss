@@ -1,0 +1,99 @@
+@use 'variables' as *;
+
+:root {
+  --bg-deep: #{$bg-deep};
+  --bg-dark: #{$bg-dark};
+  --bg-panel: #{$bg-panel};
+  --bg-panel-light: #{$bg-panel-light};
+  --border-gold: #{$border-gold};
+  --border-gold-bright: #{$border-gold-bright};
+  --border-stone: #{$border-stone};
+  --text-gold: #{$text-gold};
+  --text-light: #{$text-light};
+  --text-dim: #{$text-dim};
+  --text-red: #{$text-red};
+  --accent-red: #{$accent-red};
+  --shadow: #{$shadow};
+  --glow-gold: #{$glow-gold};
+  --glow-red: #{$glow-red};
+  --font-display: #{$font-display};
+  --font-body: #{$font-body};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-light);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input {
+  font-family: inherit;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes ember {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-8px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes authAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

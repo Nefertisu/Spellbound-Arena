@@ -1,0 +1,52 @@
+@use '../../styles/variables' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem 0.75rem;
+}
+
+.compactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.2rem 0.5rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  justify-content: center;
+}
+
+.statValue {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.compact .value {
+  font-size: 0.65rem;
+}
+
+.statValue.compact {
+  gap: 0.2rem;
+}
+
+.label {
+  font-size: 0.65rem;
+  color: $text-dim;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text-light;
+  font-variant-numeric: tabular-nums;
+  min-width: 1ch;
+}

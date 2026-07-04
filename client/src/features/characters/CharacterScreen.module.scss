@@ -1,0 +1,175 @@
+@use '../../styles/variables' as *;
+
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  gap: 1.5rem;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  color: $text-gold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.count {
+  color: $text-dim;
+  font-size: 0.75rem;
+}
+
+.rosterLayout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 2rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.listCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.listItem {
+  background: linear-gradient(
+    180deg,
+    rgba(30, 18, 12, 0.9) 0%,
+    rgba(15, 8, 5, 0.95) 100%
+  );
+  border: 1px solid $border-stone;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: rgba($border-gold, 0.5);
+  }
+}
+
+.listItemActive {
+  border-color: $border-gold;
+  box-shadow: 0 0 12px rgba(201, 162, 39, 0.15);
+}
+
+.listItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.listItemName {
+  font-size: 0.85rem;
+  color: $text-light;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.activeBadge {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-gold;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid rgba($border-gold, 0.4);
+}
+
+.listItemActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.previewCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.previewName {
+  font-family: $font-display;
+  font-size: 1.25rem;
+  color: $text-gold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.previewStage {
+  flex: 1;
+  width: 100%;
+  max-width: 420px;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.previewStats {
+  flex-shrink: 0;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba($border-stone, 0.5);
+}
+
+.noSelection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-dim;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.emptyState {
+  text-align: center;
+  color: $text-dim;
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .rosterLayout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .listCol {
+    max-height: 200px;
+  }
+
+  .previewStage {
+    min-height: 280px;
+  }
+}

@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 40;
+  pointer-events: auto;
+}
+
+.panel {
+  width: min(92vw, 360px);
+  text-align: center;
+}
+
+.hint {
+  margin: 0 0 1.25rem;
+  font-size: 0.72rem;
+  color: $text-dim;
+  letter-spacing: 0.05em;
+}
+
+.key {
+  display: inline-block;
+  min-width: 1.6rem;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid rgba($border-gold, 0.45);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.45);
+  color: $text-gold;
+  font-family: inherit;
+  font-size: 0.68rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}

@@ -1,0 +1,55 @@
+// Dark fantasy palette
+$bg-deep: #0a0604;
+$bg-dark: #120b08;
+$bg-panel: #1a100c;
+$bg-panel-light: #2a1a12;
+$border-gold: #8b6914;
+$border-gold-bright: #c9a227;
+$border-stone: #3d2817;
+$text-gold: #d4af37;
+$text-light: #d4c4a8;
+$text-dim: #8a7a6a;
+$text-red: #cc3333;
+$accent-red: #6b0000;
+$accent-red-bright: #991111;
+$shadow: rgba(0, 0, 0, 0.8);
+$glow-gold: rgba(201, 162, 39, 0.4);
+$glow-red: rgba(153, 17, 17, 0.5);
+
+$font-display: 'Cinzel Decorative', 'Cinzel', serif;
+$font-body: 'Cinzel', Georgia, serif;
+
+@mixin panel-gradient {
+  background: linear-gradient(
+    180deg,
+    $bg-panel-light 0%,
+    $bg-panel 30%,
+    #120a08 100%
+  );
+}
+
+@mixin gold-border-corners {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid $border-gold;
+    pointer-events: none;
+  }
+
+  &::before {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  &::after {
+    bottom: -2px;
+    right: -2px;
+    border-left: none;
+    border-top: none;
+  }
+}

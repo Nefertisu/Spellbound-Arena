@@ -1,0 +1,46 @@
+// Schema, migrations, datasource provider.
+// DATABASE_URL is applied at runtime in src/prisma/prisma.config.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id  Int  @id @default(autoincrement())
+  email String @unique
+  name String
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  characters Character[]
+}
+
+model Character{
+  id  Int  @id @default(autoincrement())
+
+  name String 
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  attributes Attributes?
+}
+
+model Attributes {
+  id Int @id @default(autoincrement())
+
+  strength Int 
+  agility Int
+  intelligence Int
+  statusResistance Int
+  knokbackResistance Int
+  furry Int
+  
+  characterId Int @unique
+  character Character @relation(fields: [characterId],references: [id], onDelete: Cascade)
+}
+

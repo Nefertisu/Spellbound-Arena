@@ -1,0 +1,82 @@
+@use '../../styles/variables' as *;
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.75rem;
+  font-family: $font-body;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-gold;
+  background: linear-gradient(180deg, #2a1a10 0%, #1a1008 50%, #120a06 100%);
+  border: 1px solid $border-gold;
+  box-shadow:
+    inset 0 1px 0 rgba(201, 162, 39, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.6);
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
+  min-width: 160px;
+
+  &:hover:not(:disabled) {
+    color: #f0d060;
+    border-color: $border-gold-bright;
+    box-shadow:
+      inset 0 1px 0 rgba(201, 162, 39, 0.35),
+      0 0 16px $glow-gold,
+      0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background: linear-gradient(180deg, #4a1515 0%, #2a0a0a 50%, #1a0606 100%);
+  border-color: #8b2020;
+  color: #e8a0a0;
+
+  &:hover:not(:disabled) {
+    color: #ffcccc;
+    border-color: $text-red;
+    box-shadow:
+      inset 0 1px 0 rgba(200, 50, 50, 0.3),
+      0 0 16px $glow-red,
+      0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.small {
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+  min-width: auto;
+}
+
+.ghost {
+  background: transparent;
+  border-color: $border-stone;
+  color: $text-dim;
+
+  &:hover:not(:disabled) {
+    color: $text-light;
+    border-color: $border-gold;
+    box-shadow: none;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
