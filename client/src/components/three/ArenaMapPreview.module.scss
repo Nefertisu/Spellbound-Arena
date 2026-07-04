@@ -1,0 +1,80 @@
+@use '../../styles/variables' as *;
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  width: min(220px, 28vw);
+}
+
+.canvasWrap {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid rgba($border-gold, 0.45);
+  border-radius: 10px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, rgba(40, 30, 60, 0.5), rgba(8, 6, 12, 0.95));
+  box-shadow:
+    0 0 24px rgba(0, 0, 0, 0.45),
+    inset 0 0 20px rgba(201, 162, 39, 0.06);
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  width: 100%;
+}
+
+.mapName {
+  font-family: $font-display;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.lava_pit {
+  color: #e8a050;
+  text-shadow: 0 0 10px rgba(255, 120, 40, 0.35);
+}
+
+.crystal_rift {
+  color: #60d8f8;
+  text-shadow: 0 0 10px rgba(64, 180, 255, 0.45);
+}
+
+.vs {
+  font-family: $font-display;
+  font-size: 1.1rem;
+  color: $text-red;
+  text-shadow: 0 0 14px $glow-red;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.58rem;
+  color: $text-dim;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  max-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .preview {
+    width: min(280px, 85vw);
+    order: -1;
+  }
+}

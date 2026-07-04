@@ -1,0 +1,208 @@
+@use '../../styles/variables' as *;
+
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.75rem;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  color: $text-gold;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.72rem;
+  color: $text-dim;
+  letter-spacing: 0.06em;
+  max-width: 42rem;
+  line-height: 1.45;
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: 1rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba($border-stone, 0.65);
+  border-radius: 8px;
+}
+
+.cardFireball {
+  border-color: rgba(255, 120, 60, 0.35);
+  box-shadow: inset 0 0 24px rgba(255, 80, 30, 0.06);
+}
+
+.cardImpulse {
+  border-color: rgba(120, 180, 255, 0.35);
+  box-shadow: inset 0 0 24px rgba(80, 140, 255, 0.06);
+}
+
+.cardBlink {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: inset 0 0 24px rgba(201, 162, 39, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(50, 40, 30, 0.65), rgba(15, 10, 8, 0.85));
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.05rem;
+  color: $text-gold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cardKind {
+  margin: 0.15rem 0 0;
+  font-size: 0.62rem;
+  color: $text-dim;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.78rem;
+  color: $text-light;
+  line-height: 1.5;
+}
+
+.playstyle {
+  margin: 0;
+  font-size: 0.68rem;
+  color: $text-dim;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+.mechanicsList {
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mechanicsItem {
+  font-size: 0.68rem;
+  color: $text-light;
+  line-height: 1.45;
+}
+
+.statsTitle,
+.namesTitle {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-dim;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 0.75rem;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+}
+
+.statLabel {
+  color: $text-dim;
+}
+
+.statValue {
+  color: #9de89d;
+  font-weight: 600;
+  text-align: right;
+}
+
+.nameTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.nameTag {
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.42rem;
+  border: 1px solid rgba($border-gold, 0.25);
+  color: $text-dim;
+}
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.62rem;
+  color: $text-dim;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

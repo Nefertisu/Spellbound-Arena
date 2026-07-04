@@ -1,0 +1,155 @@
+@use '../../styles/variables' as *;
+
+.slotWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: -2px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.slotBody {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 2px solid $border-stone;
+  background: rgba(0, 0, 0, 0.65);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.slotEmpty {
+  border-color: rgba(61, 40, 23, 0.65);
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyMark {
+  font-size: 0.7rem;
+  color: rgba(138, 122, 106, 0.45);
+  font-weight: 600;
+}
+
+.slotOnCooldown {
+  .iconWrap {
+    filter: saturate(0.55) brightness(0.62);
+  }
+}
+
+.slotNoMana {
+  border-color: rgba(58, 92, 150, 0.85);
+  background: linear-gradient(180deg, rgba(8, 14, 28, 0.92), rgba(4, 8, 18, 0.96));
+  box-shadow:
+    inset 0 0 14px rgba(30, 70, 140, 0.35),
+    0 0 10px rgba(40, 90, 180, 0.15);
+
+  .iconWrap {
+    filter: saturate(0.35) brightness(0.45) hue-rotate(12deg);
+  }
+}
+
+.iconWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.15s ease;
+}
+
+.icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cooldownSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cooldownWedge {
+  stroke: none;
+  opacity: 0.94;
+}
+
+.cooldownLeadingEdge {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.45));
+}
+
+.cooldownText {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f4f4f4;
+  text-shadow:
+    0 0 6px rgba(0, 0, 0, 0.95),
+    0 1px 2px rgba(0, 0, 0, 1);
+  font-family: $font-display;
+  pointer-events: none;
+}
+
+.manaVeil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(70, 130, 220, 0.18), transparent 55%),
+    linear-gradient(180deg, rgba(20, 45, 95, 0.42), rgba(6, 12, 28, 0.72));
+  box-shadow: inset 0 0 18px rgba(30, 80, 180, 0.28);
+}
+
+.keyBadge {
+  margin-top: 2px;
+  font-size: 0.52rem;
+  line-height: 1;
+  color: $text-gold;
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid $border-gold;
+  padding: 0.12rem 0.4rem;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.65);
+}
+
+.manaCost {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  z-index: 4;
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: #9fd0ff;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.manaCostBlocked {
+  color: #6a9fd8;
+  text-shadow:
+    0 0 5px rgba(80, 140, 255, 0.55),
+    0 0 2px rgba(0, 0, 0, 0.9);
+}

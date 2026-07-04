@@ -1,0 +1,62 @@
+@use '../../styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  animation: authAppear 0.5s ease;
+}
+
+.error {
+  color: $text-red;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.hint {
+  margin-top: 1rem;
+  font-size: 0.65rem;
+  color: $text-dim;
+  text-align: center;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.link {
+  border: none;
+  background: none;
+  padding: 0;
+  color: $text-gold;
+  font: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: $text-light;
+  }
+}

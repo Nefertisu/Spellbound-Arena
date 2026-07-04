@@ -1,0 +1,61 @@
+@use '../../styles/variables' as *;
+
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+}
+
+.lineTop,
+.lineBottom {
+  width: 2px;
+  height: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lineTop {
+  top: 0;
+}
+
+.lineBottom {
+  bottom: 0;
+}
+
+.lineLeft,
+.lineRight {
+  width: 6px;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lineLeft {
+  left: 0;
+}
+
+.lineRight {
+  right: 0;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 220, 160, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(201, 162, 39, 0.6);
+}

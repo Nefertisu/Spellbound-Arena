@@ -1,0 +1,53 @@
+@use '../../styles/variables' as *;
+
+.panel {
+  position: relative;
+  @include panel-gradient;
+  border: 2px solid $border-stone;
+  box-shadow:
+    inset 0 1px 0 rgba(201, 162, 39, 0.15),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.5),
+    0 8px 32px $shadow;
+  @include gold-border-corners;
+}
+
+.inner {
+  padding: 1.5rem;
+}
+
+.compact .inner {
+  padding: 0.75rem 2rem;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 1.4rem;
+  color: $text-gold;
+  text-align: center;
+  text-shadow: 0 0 12px $glow-gold;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  color: $text-dim;
+  text-align: center;
+  letter-spacing: 0.1em;
+  margin-top: -0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $border-gold 20%,
+    $border-gold 80%,
+    transparent
+  );
+  margin: 1.25rem 0;
+  opacity: 0.5;
+}

@@ -1,0 +1,184 @@
+@use '../../styles/variables' as *;
+
+.menu {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.embers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ember {
+  position: absolute;
+  bottom: 10%;
+  width: 3px;
+  height: 3px;
+  background: #ff6020;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ff4020, 0 0 12px #ff2010;
+  animation: ember linear infinite;
+  opacity: 0;
+}
+
+.characterColumn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+  border-right: 1px solid rgba(139, 105, 20, 0.2);
+  background:
+    radial-gradient(ellipse at 50% 85%, rgba(80, 40, 20, 0.22), transparent 55%),
+    linear-gradient(180deg, rgba(8, 5, 4, 0.35), rgba(0, 0, 0, 0.15));
+}
+
+.characterName {
+  margin: 0;
+  padding-top: clamp(2rem, 8vh, 4rem);
+  font-family: $font-display;
+  font-size: clamp(1.6rem, 3.5vw, 2.75rem);
+  color: $text-gold;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow:
+    0 0 18px $glow-gold,
+    0 2px 8px rgba(0, 0, 0, 0.85);
+  z-index: 2;
+}
+
+.characterNameMuted {
+  margin: 0;
+  padding-top: clamp(2rem, 8vh, 4rem);
+  font-family: $font-display;
+  font-size: clamp(1.6rem, 3.5vw, 2.75rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  z-index: 2;
+  color: $text-dim;
+}
+
+.characterPedestal {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.noCharacter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  width: min(90%, 420px);
+  padding: 2rem;
+  margin-bottom: 20vh;
+  text-align: center;
+  border: 1px dashed rgba($border-stone, 0.8);
+  background: rgba(0, 0, 0, 0.25);
+
+  p {
+    margin: 0;
+    color: $text-dim;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+}
+
+.sidePanel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 9, 7, 0.92) 0%,
+    rgba(8, 5, 4, 0.96) 100%
+  );
+}
+
+.sideHeader {
+  margin-bottom: clamp(2rem, 6vh, 3.5rem);
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+  color: $text-gold;
+  text-shadow:
+    0 0 16px $glow-gold,
+    0 0 32px rgba(201, 162, 39, 0.15),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.18em;
+  line-height: 1.35;
+  animation: flicker 4s ease-in-out infinite;
+}
+
+.sideNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.hint {
+  margin: 1.25rem auto 0;
+  max-width: 280px;
+  font-size: 0.65rem;
+  color: $text-dim;
+  text-align: center;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .menu {
+    grid-template-columns: 1fr;
+    grid-template-rows: 58vh auto;
+  }
+
+  .characterColumn {
+    border-right: none;
+    border-bottom: 1px solid rgba(139, 105, 20, 0.2);
+  }
+
+  .characterName,
+  .characterNameMuted {
+    padding-top: 1.25rem;
+    font-size: 1.4rem;
+  }
+
+  .sidePanel {
+    justify-content: flex-start;
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  .sideHeader {
+    margin-bottom: 1.25rem;
+  }
+}

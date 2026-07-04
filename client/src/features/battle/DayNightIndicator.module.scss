@@ -1,0 +1,86 @@
+@use '../../styles/variables' as *;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.dial {
+  position: relative;
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.svg {
+  width: 140px;
+  height: 76px;
+  overflow: visible;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+}
+
+.track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.arc {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.sunMarker {
+  fill: #ffd85a;
+  stroke: #fff2b0;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px rgba(255, 210, 80, 0.9));
+}
+
+.moonMarker {
+  fill: #d8e6ff;
+  stroke: #f0f6ff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px rgba(180, 200, 255, 0.85));
+}
+
+.phase {
+  margin-top: -0.35rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.day {
+  color: #e8c860;
+}
+
+.night {
+  color: #9eb4e8;
+}
+
+.compact {
+  gap: 0;
+
+  .dial {
+    width: 108px;
+  }
+
+  .svg {
+    width: 108px;
+    height: 58px;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+  }
+
+  .phase {
+    margin-top: -0.4rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+  }
+}

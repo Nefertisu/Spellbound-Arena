@@ -1,0 +1,167 @@
+@use '../../styles/variables' as *;
+
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.75rem;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  color: $text-gold;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.72rem;
+  color: $text-dim;
+  letter-spacing: 0.06em;
+  max-width: 40rem;
+  line-height: 1.45;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.card {
+  width: min(520px, 100%);
+  padding: 1.25rem 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba($border-gold, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.loading,
+.error {
+  text-align: center;
+  color: $text-dim;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+
+.error {
+  color: #ff8a8a;
+}
+
+.ratingHero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ratingValue {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 2.4rem;
+  color: $text-gold;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.ratingLabel {
+  margin: 0.35rem 0 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-dim;
+}
+
+.tierBadge {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba($border-gold, 0.5);
+  color: $text-gold;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.statBox {
+  padding: 0.75rem 0.85rem;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba($border-stone, 0.55);
+  border-radius: 6px;
+}
+
+.statBoxHighlight {
+  border-color: rgba(143, 212, 143, 0.45);
+}
+
+.statValue {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: $text-light;
+  line-height: 1.1;
+}
+
+.statValueAccent {
+  color: #8fd48f;
+}
+
+.statCaption {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-dim;
+}
+
+.meta {
+  margin: 1rem 0 0;
+  font-size: 0.58rem;
+  color: $text-dim;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.62rem;
+  color: $text-dim;
+  letter-spacing: 0.05em;
+}
