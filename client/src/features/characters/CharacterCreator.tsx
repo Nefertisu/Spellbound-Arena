@@ -18,7 +18,7 @@ interface CharacterCreatorProps {
   onCreate: (
     name: string,
     stats: CharacterStats,
-  ) => { success: true } | { success: false; message: string };
+  ) => Promise<{ success: true } | { success: false; message: string }>;
 }
 
 export function CharacterCreator({
@@ -30,6 +30,7 @@ export function CharacterCreator({
   const [name, setName] = useState('');
   const [stats, setStats] = useStatAllocatorState();
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!canCreateCharacter(existingCount)) {
     return (
@@ -47,20 +48,23 @@ export function CharacterCreator({
     );
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsSubmitting(true);
 
-    const result = onCreate(name, stats);
+    const result = await onCreate(name, stats);
     if (!result.success) {
       setError(result.message);
+      setIsSubmitting(false);
       return;
     }
 
     onCreated();
   };
 
-  const canSubmit = getRemainingPoints(stats) === 0 && name.trim().length > 0;
+  const canSubmit =
+    getRemainingPoints(stats) === 0 && name.trim().length > 0 && !isSubmitting;
 
   return (
     <div className={styles.creatorScreen}>
@@ -90,7 +94,7 @@ export function CharacterCreator({
               Cancel
             </GameButton>
             <GameButton type="submit" variant="primary" disabled={!canSubmit}>
-              Create
+              {isSubmitting ? 'Creating...' : 'Create'}
             </GameButton>
           </div>
         </div>

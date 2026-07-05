@@ -1,4 +1,5 @@
 export { authApi } from './auth.api';
+export { characterApi } from './character.api';
 export {
   ApiError,
   apiDelete,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { BotDifficulty, MatchMode, OpponentType } from '@spellbound/shared';
 import { useAuthStore } from '../../stores/authStore';
-import { useCharacterStore } from '../../stores/characterStore';
+import { useActiveCharacter } from '../../stores/characterStore';
 import { useGameStore } from '../../stores/gameStore';
 import { CharacterPreview } from '../../components/three/CharacterPreview';
 import { GameButton } from '../../components/ui/GameButton';
@@ -11,13 +11,12 @@ import styles from './MainMenu.module.scss';
 export function MainMenu() {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
-  const getActiveCharacter = useCharacterStore((s) => s.getActiveCharacter);
+  const userId = user?.id;
+  const activeCharacter = useActiveCharacter(userId);
   const setScreen = useGameStore((s) => s.setScreen);
   const openCharacters = useGameStore((s) => s.openCharacters);
   const findMatch = useGameStore((s) => s.findMatch);
   const [showMatchmaking, setShowMatchmaking] = useState(false);
-
-  const activeCharacter = user ? getActiveCharacter(user.id) : null;
 
   const handleSearch = async (options: {
     mode: MatchMode;

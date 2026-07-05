@@ -18,12 +18,13 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   characters Character[]
+  lobbyMember LobbyMember[]
 }
 
 model Character{
   id  Int  @id @default(autoincrement())
 
-  name String 
+  name String @unique
 
   userId Int
   user User @relation(fields: [userId], references: [id])
@@ -33,14 +34,48 @@ model Character{
 model Attributes {
   id Int @id @default(autoincrement())
 
-  strength Int 
-  agility Int
-  intelligence Int
-  statusResistance Int
-  knokbackResistance Int
-  furry Int
+  agility Int @default(0)
+  strength Int @default(0)
+  intelligence Int @default(0)
+  fury Int @default(0)
+  statusResistance Int @default(0)
+  pushResistance Int @default(0)
   
   characterId Int @unique
   character Character @relation(fields: [characterId],references: [id], onDelete: Cascade)
 }
 
+enum LobbyMode {
+  ONE_VS_ONE
+  TWO_VS_TWO
+  THREE_VS_THREE
+}
+
+enum LobbyStatus {
+  WAITING
+  READY
+  IN_GAME
+  FINISHED
+  CANCELLED
+}
+
+model Lobby{
+  id Int @id @default(autoincrement())
+  
+  lobbyStatus LobbyStatus
+  mode LobbyMode
+  members LobbyMember[]
+  createdAt DateTime @default(now())
+}
+
+model LobbyMember{
+  id Int @unique
+
+  isBot Boolean
+  slot Int
+
+  userId Int?
+  user User? @relation(fields: [userId],references: [id])
+  lobbyId Int @unique @default(autoincrement())
+  lobby Lobby @relation(fields: [lobbyId],references: [id])
+}

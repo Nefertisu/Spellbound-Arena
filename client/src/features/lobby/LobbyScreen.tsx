@@ -11,7 +11,7 @@ import {
   type LobbySlot,
 } from '@spellbound/shared';
 import { useAuthStore } from '../../stores/authStore';
-import { useCharacterStore } from '../../stores/characterStore';
+import { useActiveCharacter } from '../../stores/characterStore';
 import { useGameStore } from '../../stores/gameStore';
 import { CharacterPreview } from '../../components/three/CharacterPreview';
 import { ArenaMapPreview } from '../../components/three/ArenaMapPreview';
@@ -164,11 +164,10 @@ export function LobbyScreen() {
   const startBattle = useGameStore((s) => s.startBattle);
   const botDifficulty = useGameStore((s) => s.botDifficulty);
   const setBotDifficulty = useGameStore((s) => s.setBotDifficulty);
-  const getActiveCharacter = useCharacterStore((s) => s.getActiveCharacter);
+  const activeCharacter = useActiveCharacter(user?.id);
 
   if (!lobby || !user) return null;
 
-  const activeCharacter = getActiveCharacter(user.id);
   const readiness = getLobbyReadiness(lobby);
   const playerSlot = findPlayerSlot(lobby, user.id);
   const isHost = lobby.hostId === user.id;

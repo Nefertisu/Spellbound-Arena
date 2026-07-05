@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Attributes" ALTER COLUMN "strength" SET DEFAULT 0,
+ALTER COLUMN "agility" SET DEFAULT 0,
+ALTER COLUMN "intelligence" SET DEFAULT 0,
+ALTER COLUMN "statusResistance" SET DEFAULT 0,
+ALTER COLUMN "fury" SET DEFAULT 0,
+ALTER COLUMN "pushResistance" SET DEFAULT 0;

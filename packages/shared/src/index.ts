@@ -4,19 +4,21 @@ export type {
   LoginResponseDto,
   RegisterDto,
   RegisterResponseDto,
-} from './types/auth.js';
+} from "./types/auth.js";
 export type {
-  Character,
-  CharacterStats,
-  StatKey,
-} from './types/character.js';
+  CreateCharacterDto,
+  CharacterAttributes,
+  CharacterDto,
+  CreateCharacterDtoResponse,
+} from "./types/character.js";
+export type { Character, CharacterStats, StatKey } from "./types/character.js";
 export {
   INITIAL_STAT_POINTS,
   MAX_CHARACTERS_PER_USER,
   STAT_DESCRIPTIONS,
   STAT_KEYS,
   STAT_LABELS,
-} from './types/character.js';
+} from "./types/character.js";
 export type {
   Lobby,
   LobbyError,
@@ -24,21 +26,21 @@ export type {
   LobbySlot,
   LobbyStatus,
   SlotSide,
-} from './types/lobby.js';
-export type { MatchMode, OpponentType } from './types/match.js';
+} from "./types/lobby.js";
+export type { MatchMode, OpponentType } from "./types/match.js";
 export {
   MATCH_MODES,
   OPPONENT_TYPES,
   matchModeLabel,
   opponentTypeLabel,
   playersPerTeam,
-} from './types/match.js';
-export type { PlayerProfile } from './types/player.js';
+} from "./types/match.js";
+export type { PlayerProfile } from "./types/player.js";
 export type {
   FetchPlayerRatingRequest,
   FetchPlayerRatingResult,
   PlayerRatingSnapshot,
-} from './types/player-rating.js';
+} from "./types/player-rating.js";
 export type {
   ArenaFloorStyle,
   ArenaMapDefinition,
@@ -46,16 +48,20 @@ export type {
   ArenaMapTheme,
   ArenaObstacleLayout,
   CorruptedPlatformPatch,
-} from './types/arena.js';
-export { ARENA_MAP_IDS, arenaMapLabel } from './types/arena.js';
+} from "./types/arena.js";
+export { ARENA_MAP_IDS, arenaMapLabel } from "./types/arena.js";
 
 // Logic
 export {
   fetchPlayerRating,
   formatRating,
   formatWinRate,
-} from './logic/rating-api.js';
-export type { CharacterError, CharacterErrorCode, CharacterResult } from './logic/character.js';
+} from "./logic/rating-api.js";
+export type {
+  CharacterError,
+  CharacterErrorCode,
+  CharacterResult,
+} from "./logic/character.js";
 export {
   canCreateCharacter,
   canDecrementStat,
@@ -74,7 +80,7 @@ export {
   randomStatBudget,
   validateCharacterName,
   validateCharacterStats,
-} from './logic/character.js';
+} from "./logic/character.js";
 export {
   addBotToSlot,
   fillLobbyForBotMatch,
@@ -87,7 +93,7 @@ export {
   joinSlot,
   leaveSlot,
   removeBotFromSlot,
-} from './logic/lobby.js';
+} from "./logic/lobby.js";
 export {
   CRYSTAL_CRATE_PATCH_RADIUS,
   CRYSTAL_INNER_VOID_RATIO,
@@ -109,8 +115,8 @@ export {
   isCrystalPlatformHazard,
   pickRandomArenaMap,
   buildCrystalRiftObstacles,
-} from './logic/arena-maps.js';
-export { createBotProfile, createPlayerProfile } from './logic/player.js';
+} from "./logic/arena-maps.js";
+export { createBotProfile, createPlayerProfile } from "./logic/player.js";
 
 // Battle
 export {
@@ -149,7 +155,7 @@ export {
   GEAR_RARITY_PRICE,
   GEAR_RARITY_WEIGHTS,
   GEAR_STAT_BUDGET,
-} from './constants/battle.js';
+} from "./constants/battle.js";
 export type {
   BattleEntity,
   BattlePhase,
@@ -168,8 +174,16 @@ export type {
   SkillVisualEvent,
   SkillVisualEventKind,
   Vec3,
-} from './types/battle.js';
-export { BOT_DIFFICULTIES, botDifficultyLabel, GEAR_RARITIES, gearKindLabel, gearRarityLabel, skillKindLabel, SKILL_KINDS } from './types/battle.js';
+} from "./types/battle.js";
+export {
+  BOT_DIFFICULTIES,
+  botDifficultyLabel,
+  GEAR_RARITIES,
+  gearKindLabel,
+  gearRarityLabel,
+  skillKindLabel,
+  SKILL_KINDS,
+} from "./types/battle.js";
 export {
   appendDamageEvent,
   computeHpRegenPerSec,
@@ -186,7 +200,7 @@ export {
   isRoundStatDraftComplete,
   startCombatPhase,
   startNextRound,
-} from './logic/battle-init.js';
+} from "./logic/battle-init.js";
 export {
   advanceDayTime,
   formatBattleTime,
@@ -194,7 +208,7 @@ export {
   getDayNightLighting,
   isDaytime,
   type DayNightLighting,
-} from './logic/battle-time.js';
+} from "./logic/battle-time.js";
 export {
   allPlayersReady,
   applySkill,
@@ -203,12 +217,12 @@ export {
   getLocalPlayerEntity,
   getSkillCooldownRemaining,
   tickBattle,
-} from './logic/battle-sim.js';
+} from "./logic/battle-sim.js";
 export {
   canAffordSkill,
   generateShopOffers,
   purchaseSkill,
-} from './logic/shop.js';
+} from "./logic/shop.js";
 export {
   canAffordGear,
   formatGearStatSummary,
@@ -222,19 +236,19 @@ export {
   sortEquippedGear,
   GEAR_RENDER_ORDER,
   GEAR_KINDS,
-} from './logic/gear-shop.js';
+} from "./logic/gear-shop.js";
 export {
   buildFittingRoomCatalog,
   createPreviewGear,
   filterFittingRoomCatalog,
   getGearDisplayName,
-} from './logic/gear-catalog.js';
+} from "./logic/gear-catalog.js";
 export {
   getSkillDefinition,
   getSkillDefinitions,
   type SkillDefinition,
   type SkillStatLine,
-} from './logic/skill-catalog.js';
+} from "./logic/skill-catalog.js";
 
 // Utils
-export { generateId } from './utils/id.js';
+export { generateId } from "./utils/id.js";

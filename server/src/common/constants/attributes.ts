@@ -1,0 +1,1 @@
+export const NUMBER_OF_INITIAL_ATTRIBUTES = 20;

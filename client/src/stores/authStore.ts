@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { setAuthToken } from '../api';
 import type { AuthUser } from '../types/auth';
+import { useCharacterStore } from './characterStore';
 
 interface AuthState {
   user: AuthUser | null;
@@ -21,6 +22,7 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => {
         setAuthToken(null);
+        useCharacterStore.getState().clearCharacters();
         set({ user: null, isAuthenticated: false });
       },
     }),

@@ -2,48 +2,45 @@ import {
   canCreateCharacter,
   MAX_CHARACTERS_PER_USER,
   type Character,
-} from '@spellbound/shared';
-import { useAuthStore } from '../../stores/authStore';
-import { useCharacterStore } from '../../stores/characterStore';
-import { useGameStore } from '../../stores/gameStore';
-import { CharacterPreview } from '../../components/three/CharacterPreview';
-import { GameButton } from '../../components/ui/GameButton';
-import { StatDisplay } from '../../components/ui/StatDisplay';
-import { CharacterCreator } from './CharacterCreator';
-import { FittingRoom } from './FittingRoom';
-import styles from './CharacterScreen.module.scss';
-import { useState, useEffect } from 'react';
-import type { CharacterView } from '../../types/app';
+} from "@spellbound/shared";
+import { useAuthStore } from "../../stores/authStore";
+import {
+  useCharacterStore,
+  useActiveCharacter,
+  useUserCharacters,
+} from "../../stores/characterStore";
+import { useGameStore } from "../../stores/gameStore";
+import { CharacterPreview } from "../../components/three/CharacterPreview";
+import { GameButton } from "../../components/ui/GameButton";
+import { StatDisplay } from "../../components/ui/StatDisplay";
+import { CharacterCreator } from "./CharacterCreator";
+import { FittingRoom } from "./FittingRoom";
+import styles from "./CharacterScreen.module.scss";
+import { useState, useEffect } from "react";
+import type { CharacterView } from "../../types/app";
 
 function CharacterListItem({
   character,
   isActive,
   onSelect,
-  onDelete,
 }: {
   character: Character;
   isActive: boolean;
   onSelect: () => void;
-  onDelete: () => void;
 }) {
   return (
     <div
-      className={`${styles.listItem} ${isActive ? styles.listItemActive : ''}`}
+      className={`${styles.listItem} ${isActive ? styles.listItemActive : ""}`}
       onClick={onSelect}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onSelect()}
+      onKeyDown={(e) => e.key === "Enter" && onSelect()}
     >
       <div className={styles.listItemHeader}>
         <span className={styles.listItemName}>{character.name}</span>
         {isActive && <span className={styles.activeBadge}>Selected</span>}
       </div>
       <StatDisplay stats={character.stats} layout="compact" iconSize={14} />
-      <div className={styles.listItemActions} onClick={(e) => e.stopPropagation()}>
-        <GameButton size="small" variant="ghost" onClick={onDelete}>
-          Delete
-        </GameButton>
-      </div>
     </div>
   );
 }
@@ -52,48 +49,84 @@ export function CharacterScreen() {
   const user = useAuthStore((s) => s.user);
   const setScreen = useGameStore((s) => s.setScreen);
   const characterEntryView = useGameStore((s) => s.characterEntryView);
-  const clearCharacterEntryView = useGameStore((s) => s.clearCharacterEntryView);
+  const clearCharacterEntryView = useGameStore(
+    (s) => s.clearCharacterEntryView,
+  );
+  const userId = user?.id;
+  const userCharacters = useUserCharacters(userId);
+  const selectedCharacter = useActiveCharacter(userId);
   const activeCharacterId = useCharacterStore((s) => s.activeCharacterId);
-  const addCharacter = useCharacterStore((s) => s.addCharacter);
+  const createCharacter = useCharacterStore((s) => s.createCharacter);
   const selectCharacter = useCharacterStore((s) => s.selectCharacter);
-  const deleteCharacter = useCharacterStore((s) => s.deleteCharacter);
-  const getCharactersForUser = useCharacterStore((s) => s.getCharactersForUser);
+  const status = useCharacterStore((s) => s.status);
+  const loadError = useCharacterStore((s) => s.error);
+  const loadCharacters = useCharacterStore((s) => s.loadCharacters);
+  const cachedCharacterCount = useCharacterStore((s) => s.characters.length);
 
-  const [view, setView] = useState<CharacterView>('roster');
+  const [view, setView] = useState<CharacterView>("roster");
 
   useEffect(() => {
-    if (characterEntryView === 'roster') return;
+    if (characterEntryView === "roster") return;
     setView(characterEntryView);
     clearCharacterEntryView();
   }, [characterEntryView, clearCharacterEntryView]);
 
   if (!user) return null;
 
-  const userCharacters = getCharactersForUser(user.id);
-  const canCreate = canCreateCharacter(userCharacters.length);
-  const selectedCharacter =
-    userCharacters.find((c) => c.id === activeCharacterId) ?? userCharacters[0] ?? null;
-
-  if (view === 'fitting' && selectedCharacter) {
+  if (status === "loading" && view === "roster" && cachedCharacterCount === 0) {
     return (
       <div className={styles.screen}>
-        <FittingRoom character={selectedCharacter} onBack={() => setView('roster')} />
+        <p className={styles.emptyState}>Loading characters...</p>
       </div>
     );
   }
 
-  if (view === 'create') {
+  if (status === "error" && view === "roster") {
+    return (
+      <div className={styles.screen}>
+        <p className={styles.emptyState}>
+          {loadError ?? "Failed to load characters."}
+        </p>
+        <footer className={styles.footer}>
+          <GameButton variant="ghost" onClick={() => setScreen("menu")}>
+            Back to Menu
+          </GameButton>
+          <GameButton
+            onClick={() => void loadCharacters(user.id, { force: true })}
+          >
+            Retry
+          </GameButton>
+        </footer>
+      </div>
+    );
+  }
+
+  const canCreate = canCreateCharacter(userCharacters.length);
+
+  if (view === "fitting" && selectedCharacter) {
+    return (
+      <div className={styles.screen}>
+        <FittingRoom
+          character={selectedCharacter}
+          onBack={() => setView("roster")}
+        />
+      </div>
+    );
+  }
+
+  if (view === "create") {
     return (
       <div className={styles.screen}>
         <CharacterCreator
           existingCount={userCharacters.length}
-          onCreate={(name, stats) => {
-            const result = addCharacter(user.id, name, stats);
-            if (!result.success) return { success: false, message: result.message };
+          onCreate={async (name, stats) => {
+            const result = await createCharacter(user.id, name, stats);
+            if (!result.success)
+              return { success: false, message: result.message };
             return { success: true };
           }}
-          onCreated={() => setView('roster')}
-          onCancel={() => setView('roster')}
+          onCreated={() => setView("roster")}
+          onCancel={() => setView("roster")}
         />
       </div>
     );
@@ -120,8 +153,7 @@ export function CharacterScreen() {
                 key={char.id}
                 character={char}
                 isActive={char.id === activeCharacterId}
-                onSelect={() => selectCharacter(char.id)}
-                onDelete={() => deleteCharacter(char.id, user.id)}
+                onSelect={() => selectCharacter(user.id, char.id)}
               />
             ))
           )}
@@ -151,16 +183,16 @@ export function CharacterScreen() {
       </div>
 
       <footer className={styles.footer}>
-        <GameButton variant="ghost" onClick={() => setScreen('menu')}>
+        <GameButton variant="ghost" onClick={() => setScreen("menu")}>
           Back to Menu
         </GameButton>
         {selectedCharacter && (
-          <GameButton onClick={() => setView('fitting')}>
+          <GameButton onClick={() => setView("fitting")}>
             Fitting Room
           </GameButton>
         )}
         {canCreate && (
-          <GameButton variant="primary" onClick={() => setView('create')}>
+          <GameButton variant="primary" onClick={() => setView("create")}>
             Create Character
           </GameButton>
         )}
