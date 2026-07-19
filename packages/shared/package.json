@@ -5,14 +5,19 @@
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "bin": {
+    "spellbound-game-server": "./dist/game-server.js"
+  },
   "exports": {
     ".": "./src/index.ts"
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "game-server": "tsx src/game-server.ts"
   },
   "devDependencies": {
+    "tsx": "^4.23.0",
     "typescript": "~6.0.2"
   }
 }

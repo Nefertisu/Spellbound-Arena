@@ -22,14 +22,7 @@ export class MatchmakingManager {
 
   constructor(private readonly lobbyManager: LobbyManager) {}
 
-  addPlayer(
-    player: QueuePlayer,
-    mode: MatchMode,
-    withBots: boolean,
-    server: Server,
-  ): void {
-    void withBots;
-
+  addPlayer(player: QueuePlayer, mode: MatchMode, server: Server): void {
     this.removeFromQueue(player.socketId);
 
     const queue = this.queues[mode];
@@ -46,24 +39,32 @@ export class MatchmakingManager {
     this.tryCreateLobby(mode, server);
   }
 
-  handleDisconnect(socketId: string): void {
+  handleDisconnect(socketId: string, server: Server): void {
     this.removeFromQueue(socketId);
   }
 
-  private tryCreateLobby(mode: MatchMode, server: Server): void {
+  private async tryCreateLobby(mode: MatchMode, server: Server): Promise<void> {
     const queue = this.queues[mode];
-    const need = REQUIRED_PLAYERS[mode];
+    const size = REQUIRED_PLAYERS[mode];
 
-    if (queue.size() < need) {
+    if (queue.size() < size) {
       return;
     }
 
-    const players = queue.pop(need);
+    const players = queue.pop(size);
     for (const matchedPlayer of players) {
       this.queueBySocket.delete(matchedPlayer.socketId);
     }
 
-    this.lobbyManager.create(players, mode, server);
+    await this.lobbyManager.create(players, mode, server);
+  }
+
+  tryCreateLobbyWithBots(
+    player: QueuePlayer,
+    mode: MatchMode,
+    server: Server,
+  ): void {
+    this.lobbyManager.create([player], mode, server);
   }
 
   private removeFromQueue(socketId: string): void {

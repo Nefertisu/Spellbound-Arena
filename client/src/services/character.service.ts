@@ -24,6 +24,37 @@ export async function fetchUserCharacters(ownerId: string): Promise<Character[]>
   return list.map((dto) => mapCharacterDto(dto, ownerId));
 }
 
+export async function fetchSelectedCharacterId(ownerId: string): Promise<string | null> {
+  try {
+    const selected = await characterApi.getSelected();
+    if (!selected) return null;
+    return String(selected.id);
+  } catch {
+    return null;
+  }
+}
+
+export async function selectUserCharacter(
+  ownerId: string,
+  characterId: string,
+): Promise<{ success: true; character: Character } | { success: false; message: string }> {
+  try {
+    const response = await characterApi.select({
+      characterId: Number(characterId),
+    });
+
+    return {
+      success: true,
+      character: mapCharacterDto(response, ownerId),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: mapApiError(error, 'Failed to select character.'),
+    };
+  }
+}
+
 export async function createUserCharacter(
   ownerId: string,
   name: string,

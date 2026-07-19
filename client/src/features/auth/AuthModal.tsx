@@ -63,31 +63,43 @@ export function AuthModal() {
         <form onSubmit={handleSubmit}>
           <GameInput
             ref={emailRef}
+            variant="plain"
             label="Email"
-            type="email"
+            type="text"
+            inputMode="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
           />
 
           {mode === 'register' && (
             <GameInput
+              variant="plain"
               label="Name"
               placeholder="Display name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
+              autoCapitalize="none"
+              spellCheck={false}
             />
           )}
 
           <GameInput
+            variant="plain"
             label="Password"
             type="password"
             placeholder={mode === 'register' ? 'At least 6 characters' : 'Your password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
           />
 
           {error && <p className={styles.error}>{error}</p>}

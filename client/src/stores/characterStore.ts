@@ -3,7 +3,9 @@ import { useShallow } from 'zustand/react/shallow';
 import type { Character, CharacterStats } from '@spellbound/shared';
 import {
   createUserCharacter,
+  fetchSelectedCharacterId,
   fetchUserCharacters,
+  selectUserCharacter,
 } from '../services/character.service';
 import {
   getLastSelectedCharacterId,
@@ -27,7 +29,10 @@ interface CharacterState {
     name: string,
     stats: CharacterStats,
   ) => Promise<{ success: true; character: Character } | { success: false; message: string }>;
-  selectCharacter: (ownerId: string, characterId: string) => void;
+  selectCharacter: (
+    ownerId: string,
+    characterId: string,
+  ) => Promise<{ success: boolean; message?: string }>;
   clearCharacters: () => void;
 }
 
@@ -118,8 +123,13 @@ export const useCharacterStore = create<CharacterState>()((set, get) => ({
 
     try {
       const fetched = await fetchUserCharacters(ownerId);
+      const serverSelectedId = await fetchSelectedCharacterId(ownerId);
       const { activeCharacterId: currentActiveId } = get();
-      const nextActiveId = pickActiveCharacterId(ownerId, fetched, currentActiveId);
+      const nextActiveId = pickActiveCharacterId(
+        ownerId,
+        fetched,
+        serverSelectedId ?? currentActiveId,
+      );
 
       if (nextActiveId) {
         setLastSelectedCharacterId(ownerId, nextActiveId);
@@ -154,18 +164,40 @@ export const useCharacterStore = create<CharacterState>()((set, get) => ({
     }
 
     await get().loadCharacters(ownerId, { force: true });
-    get().selectCharacter(ownerId, result.character.id);
+    const selectResult = await get().selectCharacter(ownerId, result.character.id);
+    if (!selectResult.success) {
+      return { success: false, message: selectResult.message ?? 'Failed to select character.' };
+    }
 
     const refreshed = get().characters.find((c) => c.id === result.character.id);
     return { success: true, character: refreshed ?? result.character };
   },
 
-  selectCharacter: (ownerId, characterId) => {
+  selectCharacter: async (ownerId, characterId) => {
+    const previousId = get().activeCharacterId;
+    set({
+      ownerId,
+      activeCharacterId: characterId,
+      error: null,
+    });
+
+    const result = await selectUserCharacter(ownerId, characterId);
+    if (!result.success) {
+      set({
+        activeCharacterId: previousId,
+        error: result.message,
+      });
+      return { success: false, message: result.message };
+    }
+
     setLastSelectedCharacterId(ownerId, characterId);
     set({
       ownerId,
       activeCharacterId: characterId,
+      error: null,
     });
+
+    return { success: true };
   },
 
   clearCharacters: () =>
@@ -178,8 +210,11 @@ export const useCharacterStore = create<CharacterState>()((set, get) => ({
     }),
 }));
 
-export function selectActiveCharacter(userId: string, characterId: string): void {
-  useCharacterStore.getState().selectCharacter(userId, characterId);
+export function selectActiveCharacter(
+  userId: string,
+  characterId: string,
+): Promise<{ success: boolean; message?: string }> {
+  return useCharacterStore.getState().selectCharacter(userId, characterId);
 }
 
 export function readActiveCharacter(userId: string): Character | null {

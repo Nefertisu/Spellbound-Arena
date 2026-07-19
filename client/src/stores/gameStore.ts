@@ -3,7 +3,6 @@ import {
   addBotToSlot,
   createLobby as createLobbyState,
   createPlayerProfile,
-  fillLobbyForBotMatch,
   joinSlot,
   leaveSlot,
   pickRandomArenaMap,
@@ -14,6 +13,7 @@ import {
   type MatchMode,
   type OpponentType,
 } from '@spellbound/shared';
+import * as roomService from '../services/room.service';
 import { useBattleStore } from './battleStore';
 import type { AppScreen, CharacterView } from '../types/app';
 
@@ -23,12 +23,17 @@ interface GameState {
   error: string | null;
   botDifficulty: BotDifficulty;
   characterEntryView: CharacterView;
+  queueSize: number;
+  queueRequired: number;
 
   setScreen: (screen: AppScreen) => void;
   openCharacters: (view?: CharacterView) => void;
   clearCharacterEntryView: () => void;
   setBotDifficulty: (difficulty: BotDifficulty) => void;
   clearError: () => void;
+  setError: (message: string) => void;
+  setQueueStatus: (queueSize: number, requiredPlayers: number) => void;
+  enterMatchLobby: (lobby: Lobby, botDifficulty: BotDifficulty) => void;
   createLobby: (mode: MatchMode, userId: string, character: Character) => void;
   findMatch: (
     mode: MatchMode,
@@ -51,12 +56,25 @@ export const useGameStore = create<GameState>((set, get) => ({
   error: null,
   botDifficulty: 'passive',
   characterEntryView: 'roster',
+  queueSize: 0,
+  queueRequired: 0,
 
   setScreen: (screen) => set({ screen }),
   openCharacters: (view = 'roster') => set({ screen: 'characters', characterEntryView: view }),
   clearCharacterEntryView: () => set({ characterEntryView: 'roster' }),
   setBotDifficulty: (botDifficulty) => set({ botDifficulty }),
   clearError: () => set({ error: null }),
+  setError: (message) => set({ error: message }),
+  setQueueStatus: (queueSize, queueRequired) => set({ queueSize, queueRequired }),
+  enterMatchLobby: (lobby, botDifficulty) =>
+    set({
+      lobby,
+      screen: 'lobby',
+      botDifficulty,
+      error: null,
+      queueSize: 0,
+      queueRequired: 0,
+    }),
 
   createLobby: (mode, userId, character) => {
     const lobby = createLobbyState(mode, userId, pickRandomArenaMap());
@@ -75,40 +93,22 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   findMatch: async (mode, opponentType, botDifficulty, userId, character) => {
-    const mapId = pickRandomArenaMap();
-    const lobby = createLobbyState(mode, userId, mapId);
-    const player = createPlayerProfile(userId, character);
+    set({ botDifficulty, error: null, queueSize: 0, queueRequired: 0 });
 
-    const teamASlot = lobby.slots.find((s) => s.side === 'teamA' && s.index === 0);
-    if (!teamASlot) {
-      set({ error: 'Could not create lobby.' });
-      throw new Error('Could not create lobby.');
+    try {
+      await roomService.searchGame({
+        mode,
+        withBots: opponentType === 'bots',
+        userId,
+        character,
+        botDifficulty,
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Could not find a match.';
+      set({ error: message });
+      throw error;
     }
-
-    const joinResult = joinSlot(lobby, teamASlot.id, player);
-    if (!joinResult.success) {
-      set({ error: joinResult.error.message });
-      throw new Error(joinResult.error.message);
-    }
-
-    const searchMs =
-      opponentType === 'bots'
-        ? 900 + Math.random() * 900
-        : 1800 + Math.random() * 1400;
-
-    await new Promise((resolve) => setTimeout(resolve, searchMs));
-
-    let finalLobby =
-      opponentType === 'bots'
-        ? fillLobbyForBotMatch(joinResult.data)
-        : joinResult.data;
-
-    set({
-      lobby: finalLobby,
-      screen: 'lobby',
-      botDifficulty,
-      error: null,
-    });
   },
 
   joinLobbySlot: (slotId, userId, character) => {

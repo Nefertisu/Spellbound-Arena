@@ -11,21 +11,31 @@ export class RoomService {
     client: Socket,
     mode: MatchMode,
     withBots: boolean,
-    userId: number | undefined,
+    userId: number,
     server: Server,
   ): void {
+    if (withBots) {
+      this.matchmaking.tryCreateLobbyWithBots(
+        {
+          socketId: client.id,
+          userId: userId,
+        },
+        mode,
+        server,
+      );
+      return;
+    }
     this.matchmaking.addPlayer(
       {
         socketId: client.id,
-        userId: userId ?? 0,
+        userId: userId,
       },
       mode,
-      withBots,
       server,
     );
   }
 
-  handleDisconnect(socketId: string): void {
-    this.matchmaking.handleDisconnect(socketId);
+  handleDisconnect(socketId: string, server: Server): void {
+    this.matchmaking.handleDisconnect(socketId, server);
   }
 }

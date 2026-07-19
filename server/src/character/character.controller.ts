@@ -1,7 +1,12 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CharacterService } from './character.service';
-import type { CreateCharacterDtoResponse } from '@spellbound/shared';
-import { CreateCharacterDto } from './dto/character.dto';
+import type {
+  CreateCharacterDtoResponse,
+  CharacterDto,
+  SelectCharacterDtoResponse,
+  SelectedCharacterDtoResponse,
+} from '@spellbound/shared';
+import { CreateCharacterDto, SelectCharacterDto } from './dto/character.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
@@ -20,7 +25,22 @@ export class CharacterController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  getAll(@CurrentUser() user) {
+  getAll(@CurrentUser() user): Promise<CharacterDto[]> {
     return this.characterService.getAll(user.userId);
+  }
+
+  @Get('selected')
+  @UseGuards(JwtAuthGuard)
+  getSelected(@CurrentUser() user): Promise<SelectedCharacterDtoResponse> {
+    return this.characterService.getSelected(user.userId);
+  }
+
+  @Post('select')
+  @UseGuards(JwtAuthGuard)
+  select(
+    @Body() dto: SelectCharacterDto,
+    @CurrentUser() user,
+  ): Promise<SelectCharacterDtoResponse> {
+    return this.characterService.selectCharacter(user.userId, dto.characterId);
   }
 }

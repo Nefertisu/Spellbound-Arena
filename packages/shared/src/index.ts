@@ -10,6 +10,9 @@ export type {
   CharacterAttributes,
   CharacterDto,
   CreateCharacterDtoResponse,
+  SelectCharacterDto,
+  SelectCharacterDtoResponse,
+  SelectedCharacterDtoResponse,
 } from "./types/character.js";
 export type { Character, CharacterStats, StatKey } from "./types/character.js";
 export {
@@ -117,6 +120,25 @@ export {
   buildCrystalRiftObstacles,
 } from "./logic/arena-maps.js";
 export { createBotProfile, createPlayerProfile } from "./logic/player.js";
+
+// Game server (authoritative match sessions)
+export type {
+  GameClientMessage,
+  GameServerEndpoint,
+  GameSessionConfig,
+  GameSessionEvent,
+  GameSessionSnapshot,
+  GameSessionStatus,
+  SkillRequest,
+  SpawnGameSessionOptions,
+} from "./types/game-server.js";
+export { GameSession, createGameSession } from "./logic/game-session.js";
+export type { GameSessionHandle } from "./logic/game-server-host.js";
+export {
+  createGameServerHost,
+  GameServerHost,
+  runGameSession,
+} from "./logic/game-server-host.js";
 
 // Battle
 export {

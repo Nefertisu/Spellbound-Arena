@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BOT_DIFFICULTIES,
   botDifficultyLabel,
@@ -10,6 +10,7 @@ import {
   type MatchMode,
   type OpponentType,
 } from '@spellbound/shared';
+import { useGameStore } from '../../stores/gameStore';
 import { GameButton } from '../../components/ui/GameButton';
 import styles from './MatchmakingPanel.module.scss';
 
@@ -33,6 +34,13 @@ export function MatchmakingPanel({
   const [botDifficulty, setBotDifficulty] = useState<BotDifficulty>('passive');
   const [isSearching, setIsSearching] = useState(false);
   const [statusText, setStatusText] = useState('');
+  const queueSize = useGameStore((s) => s.queueSize);
+  const queueRequired = useGameStore((s) => s.queueRequired);
+
+  useEffect(() => {
+    if (!isSearching || queueRequired === 0) return;
+    setStatusText(`In queue ${queueSize}/${queueRequired}...`);
+  }, [isSearching, queueSize, queueRequired]);
 
   const handleSearch = async () => {
     if (disabled || isSearching) return;

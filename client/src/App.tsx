@@ -9,6 +9,7 @@ import { RatingScreen } from './features/menu/RatingScreen';
 import { useAuthStore } from './stores/authStore';
 import { useCharacterStore } from './stores/characterStore';
 import { useGameStore } from './stores/gameStore';
+import { initRoomService, shutdownRoomService } from './services/room.service';
 import styles from './App.module.scss';
 import './styles/global.scss';
 
@@ -47,6 +48,16 @@ function App() {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (!authReady || !isAuthenticated) return;
+
+    initRoomService();
+
+    return () => {
+      shutdownRoomService();
+    };
+  }, [authReady, isAuthenticated]);
 
   useEffect(() => {
     if (!authReady || !user) return;

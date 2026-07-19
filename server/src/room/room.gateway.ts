@@ -27,14 +27,14 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(client: Socket) {
-    this.roomService.handleDisconnect(client.id);
+    this.roomService.handleDisconnect(client.id, this.server);
   }
 
   @SubscribeMessage('room:search-game')
   handleSearchGame(
     @ConnectedSocket() client: Socket,
     @MessageBody()
-    data: { mode: MatchMode; withBots: boolean; userId?: number },
+    data: { mode: MatchMode; withBots: boolean; userId: number },
   ) {
     this.roomService.searchForLobby(
       client,

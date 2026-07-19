@@ -1,6 +1,3 @@
-// Schema, migrations, datasource provider.
-// DATABASE_URL is applied at runtime in src/prisma/prisma.config.ts
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,39 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id  Int  @id @default(autoincrement())
-  email String @unique
-  name String
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  characters Character[]
-  lobbyMember LobbyMember[]
+model User {
+  id                  Int           @id @default(autoincrement())
+  email               String        @unique
+  name                String
+  password            String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  selectedCharacterId Int?
+  characters          Character[]
+  lobbyMember         LobbyMember[]
+  selectedCharacter   Character?    @relation("SelectedCharacter", fields: [selectedCharacterId], references: [id])
 }
 
-model Character{
-  id  Int  @id @default(autoincrement())
-
-  name String @unique
-
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+model Character {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  userId     Int
   attributes Attributes?
+  user       User        @relation(fields: [userId], references: [id])
+  selectedBy User[]      @relation("SelectedCharacter")
 }
 
 model Attributes {
-  id Int @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
+  strength         Int       @default(0)
+  agility          Int       @default(0)
+  intelligence     Int       @default(0)
+  statusResistance Int       @default(0)
+  characterId      Int       @unique
+  fury             Int       @default(0)
+  pushResistance   Int       @default(0)
+  character        Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+}
 
-  agility Int @default(0)
-  strength Int @default(0)
-  intelligence Int @default(0)
-  fury Int @default(0)
-  statusResistance Int @default(0)
-  pushResistance Int @default(0)
-  
-  characterId Int @unique
-  character Character @relation(fields: [characterId],references: [id], onDelete: Cascade)
+model Lobby {
+  id          Int          @id @default(autoincrement())
+  lobbyStatus LobbyStatus
+  mode        LobbyMode
+  createdAt   DateTime     @default(now())
+  members     LobbyMember?
+}
+
+model LobbyMember {
+  id      Int     @unique
+  isBot   Boolean
+  slot    Int
+  userId  Int?
+  lobbyId Int     @unique @default(autoincrement())
+  lobby   Lobby   @relation(fields: [lobbyId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
 }
 
 enum LobbyMode {
@@ -57,25 +71,4 @@ enum LobbyStatus {
   IN_GAME
   FINISHED
   CANCELLED
-}
-
-model Lobby{
-  id Int @id @default(autoincrement())
-  
-  lobbyStatus LobbyStatus
-  mode LobbyMode
-  members LobbyMember[]
-  createdAt DateTime @default(now())
-}
-
-model LobbyMember{
-  id Int @unique
-
-  isBot Boolean
-  slot Int
-
-  userId Int?
-  user User? @relation(fields: [userId],references: [id])
-  lobbyId Int @unique @default(autoincrement())
-  lobby Lobby @relation(fields: [lobbyId],references: [id])
 }

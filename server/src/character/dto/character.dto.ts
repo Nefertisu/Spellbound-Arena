@@ -1,6 +1,7 @@
 import type {
   CreateCharacterDto as CreateCharacterDtoContract,
   CharacterAttributes as CharacterAttributesContract,
+  SelectCharacterDto as SelectCharacterDtoContract,
 } from '@spellbound/shared';
 import { IsNumber, IsString, MinLength } from 'class-validator';
 import { NUMBER_OF_INITIAL_ATTRIBUTES } from 'src/common/constants/attributes';
@@ -31,4 +32,9 @@ export class CreateCharacterDto implements CreateCharacterDtoContract {
     min: NUMBER_OF_INITIAL_ATTRIBUTES,
   })
   attributes!: CharacterAttributes;
+}
+
+export class SelectCharacterDto implements SelectCharacterDtoContract {
+  @IsNumber()
+  characterId!: number;
 }

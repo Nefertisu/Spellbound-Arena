@@ -64,6 +64,17 @@ export interface CharacterDto {
   attributes: CharacterAttributes;
 }
 
+/** POST /character/select — request body */
+export interface SelectCharacterDto {
+  characterId: number;
+}
+
+/** POST /character/select — response */
+export type SelectCharacterDtoResponse = CharacterDto;
+
+/** GET /character/selected — response */
+export type SelectedCharacterDtoResponse = CharacterDto | null;
+
 export interface CharacterAttributes {
   agility: number;
   strength: number;

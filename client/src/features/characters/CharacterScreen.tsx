@@ -141,6 +141,10 @@ export function CharacterScreen() {
         </span>
       </header>
 
+      {loadError && status === "ready" && (
+        <p className={styles.emptyState}>{loadError}</p>
+      )}
+
       <div className={styles.rosterLayout}>
         <aside className={styles.listCol}>
           {userCharacters.length === 0 ? (
@@ -153,7 +157,7 @@ export function CharacterScreen() {
                 key={char.id}
                 character={char}
                 isActive={char.id === activeCharacterId}
-                onSelect={() => selectCharacter(user.id, char.id)}
+                onSelect={() => void selectCharacter(user.id, char.id)}
               />
             ))
           )}
